@@ -5,18 +5,18 @@ pipeline {
         
         stage('Build image'){
             if (env.BRANCH_NAME =='main'){
-                steps{
+                // steps{
                     sh "echo Building"
                     // script{
                     //     img = registry //+ ":${env.BUILD_ID}"
                     //     dockerImage = docker.build("${img}")
                     // }
-                }
+                // }
             }
         }
         stage('Uploadiong to DockerHub'){
             if (env.BRANCH_NAME =='develop'){
-                steps{
+                // steps{
 
                     sh "echo Pushing"
                     // script{
@@ -25,7 +25,7 @@ pipeline {
                     //     }
                         
                     // }
-                }
+                // }
             }
         }
         stage('Deploy in server'){
