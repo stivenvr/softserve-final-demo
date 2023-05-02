@@ -17,7 +17,10 @@ type Message struct {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
+	tmpl.ExecuteTemplate(w, "index.html", nil)
+}
 
+func Process(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
@@ -41,11 +44,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		//fmt.Println(m.MainMsg)
 		//fmt.Println(m.FinalMesg)
 	}
-	tmpl.Execute(w, m)
-	// http.Redirect(w, r, "/", http.StatusSeeOther)
-}
-
-func Process(w http.ResponseWriter, r *http.Request) {
+	tmpl.ExecuteTemplate(w, "process.html", m)
 }
 
 func main() {
@@ -55,7 +54,7 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	mux.HandleFunc("/", Index)
-	//mux.HandleFunc("/process", Process)
+	mux.HandleFunc("/process", Process)
 
 	fmt.Println("Inicio del proyecto!!")
 	log.Fatal(http.ListenAndServe(":5555", mux))
