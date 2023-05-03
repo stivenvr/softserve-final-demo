@@ -18,7 +18,7 @@ pipeline {
                 branch 'develop'
             }
             steps{
-                sh "go build -v -o ./app ./main.go .algorithm.go"
+                sh "go build -v -o ./app ./main.go ./algorithm.go"
                 sh "./app"
             }
         }
