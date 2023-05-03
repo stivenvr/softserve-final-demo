@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Go run test'){
             when {
-                brnach 'develop'
+                branch 'develop'
             }
             steps{
                 sh "go build -v -o ./app ./main.go .algorithm.go"
