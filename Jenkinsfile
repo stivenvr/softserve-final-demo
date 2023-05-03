@@ -4,31 +4,35 @@ pipeline {
     stages {
         
         stage('Build image'){
-            script{
-                if (env.BRANCH_NAME =='main'){
-                    // steps{
-                        sh "echo Building"
-                        // script{
-                        //     img = registry //+ ":${env.BUILD_ID}"
-                        //     dockerImage = docker.build("${img}")
+            steps{
+                script{
+                    if (env.BRANCH_NAME =='main'){
+                        // steps{
+                            sh "echo Building"
+                            // script{
+                            //     img = registry //+ ":${env.BUILD_ID}"
+                            //     dockerImage = docker.build("${img}")
+                            // }
                         // }
-                    // }
+                    }
                 }
             }
         }
         stage('Uploadiong to DockerHub'){
-            script{
-                if (env.BRANCH_NAME =='develop'){
-                    // steps{
+            steps{
+                script{
+                    if (env.BRANCH_NAME =='develop'){
+                        // steps{
 
-                        sh "echo Pushing"
-                        // script{
-                        //     docker.withRegistry('https://registry.hub.docker.com', registryCredential){
-                        //         dockerImage.push()
-                        //     }
-                            
+                            sh "echo Pushing"
+                            // script{
+                            //     docker.withRegistry('https://registry.hub.docker.com', registryCredential){
+                            //         dockerImage.push()
+                            //     }
+                                
+                            // }
                         // }
-                    // }
+                    }
                 }
             }
         }
