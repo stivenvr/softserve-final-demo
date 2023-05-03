@@ -1,17 +1,27 @@
 pipeline {
     agent any
+
+    environment{
+        img = ""
+        registry = "stivenvr/goapp"
+        dockerImage = ""
+    }
+
     stages {
         stage('Unit testing'){
-            when{
-                branch 'main'
-            }
             steps{
                 sh "go test"
             }
         }
         stage('Build image'){
+            when {
+                branch 'main'
+            }
             steps{
-                sh "echo Building"
+                script{
+                    img = registry //+ ":${env.BUILD_ID}"
+                    dockerImage = docker.build("${img}")
+                }
                 
             }
         }
