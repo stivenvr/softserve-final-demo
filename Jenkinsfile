@@ -6,6 +6,7 @@ pipeline {
         img = ""
         registry = "stivenvr/goapp"
         dockerImage = ""
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
 
     stages {
@@ -14,7 +15,7 @@ pipeline {
                 sh "go test"
             }
         }
-        stage('Go run test'){
+        /* stage('Go run test'){
             when {
                 branch 'develop'
             }
@@ -22,7 +23,7 @@ pipeline {
                 sh "go build -v -o ./app ./main.go ./algorithm.go"
                 sh "./app"
             }
-        }
+        } */
         stage('Build image'){
             when {
                 branch 'main'
@@ -46,12 +47,20 @@ pipeline {
                 sh "docker run -d --name ${job} -p 7777:5555 ${img}"
             }
         }
-        stage('Uploadiong to DockerHub'){
+        stage('Docker login'){
             when {
                 branch 'main'
             }
             steps{
-                sh "echo Pushing"
+                sh "sh echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+            }
+        }
+        stage('Push to dockerhub'){
+            when {
+                branch 'main'
+            }
+            steps{
+                sh "docker push ${registry}"
             }
         }
         stage('Deploy in server'){
@@ -64,6 +73,10 @@ pipeline {
                 
             }
         }
-
+        post {
+            always {
+                sh "docker logout"
+            }
+        }
     }
 }
