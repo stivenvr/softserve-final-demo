@@ -54,14 +54,12 @@ pipeline {
                 sh "sh echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
             }
         }
-        stage('Uploadiong to dockerhub'){
+        stage('Push to dockerhub'){
             when {
                 branch 'main'
             }
             steps{
-                script{
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential){
-                }
+                sh "docker push ${registry}"
             }
         }
         stage('Deploy in server'){
@@ -74,6 +72,10 @@ pipeline {
                 
             }
         }
-
+        post {
+            always {
+                sh "docker logout"
+            }
+        }
     }
 }
