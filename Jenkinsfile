@@ -7,6 +7,7 @@ pipeline {
         registry = "stivenvr/goapp"
         dockerImage = ""
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        EC2_CREDENTIALS = credentials('ec2')
     }
 
     stages {
@@ -73,12 +74,12 @@ pipeline {
                     def delcontainer = "docker rm ${job}"
                     def delimages = "docker image prune -a --force"
                     def drun = "docker run -d --name ${job} -p 7777:5555 ${img}"
-                    sh "cd"
-                    sh "cd .ssh/"
-                    sh returnStatus: true, script: "ssh -i id_rsa.pem ubuntu@ec2-3-144-14-115.us-east-2.compute.amazonaws.com ${stopcontainer}"
-                    sh returnStatus: true, script: "ssh -i id_rsa.pem ubuntu@ec2-3-144-14-115.us-east-2.compute.amazonaws.com ${delcontainer}"
-                    sh returnStatus: true, script: "ssh -i id_rsa.pem ubuntu@ec2-3-144-14-115.us-east-2.compute.amazonaws.com ${delimages}"
-                    sh returnStatus: true, script: "ssh -i id_rsa.pem ubuntu@ec2-3-144-14-115.us-east-2.compute.amazonaws.com ${drun}"
+                    // sshagent(credentials:[EC2_CREDENTIALS]){
+                    sh returnStatus: true, script: "ssh -i ${EC2_CREDENTIALS_PK} ubuntu@ec2-3-144-14-115.us-east-2.compute.amazonaws.com ${stopcontainer}"
+                    sh returnStatus: true, script: "ssh -i ${EC2_CREDENTIALS_PK} ubuntu@ec2-3-144-14-115.us-east-2.compute.amazonaws.com ${delcontainer}"
+                    sh returnStatus: true, script: "ssh -i ${EC2_CREDENTIALS_PK} ubuntu@ec2-3-144-14-115.us-east-2.compute.amazonaws.com ${delimages}"
+                    sh returnStatus: true, script: "ssh -i ${EC2_CREDENTIALS_PK} ubuntu@ec2-3-144-14-115.us-east-2.compute.amazonaws.com ${drun}"
+                    // }
                 }
             }
         }   
