@@ -2,6 +2,9 @@ pipeline {
     agent any
     stages {
         stage('Unit testing'){
+            when{
+                branch 'main'
+            }
             steps{
                 sh "go test"
             }
