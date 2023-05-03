@@ -72,11 +72,11 @@ pipeline {
                 sh "echo Deploying!"
                 
             }
-        }
-        post {
-            always {
-                sh "docker logout"
-            }
+        }   
+    }
+    post {
+        always {
+            sh "docker logout"
         }
     }
 }
