@@ -13,6 +13,15 @@ pipeline {
                 sh "go test"
             }
         }
+        stage('Go run test'){
+            when {
+                branch 'develop'
+            }
+            steps{
+                sh "go build -v -o ./app ./main.go ./algorithm.go"
+                sh "./app"
+            }
+        }
         stage('Build image'){
             when {
                 branch 'main'
@@ -20,28 +29,37 @@ pipeline {
             steps{
                 script{
                     img = registry //+ ":${env.BUILD_ID}"
+                    sh returnStatus: true, script: "docker stop ${JOB_NAME}"
+                    sh returnStatus: true, script: "docker rm ${JOB_NAME}"
+                    sh returnStatus: true, script: "docker image prune -a --force"
                     dockerImage = docker.build("${img}")
                 }
                 
             }
         }
-        stage('Uploadiong to DockerHub'){
+        stage('Running docker'){
+            when{
+                branch 'main'
+            }
             steps{
-                script{
-                    if (env.BRANCH_NAME =='develop'){
-                        // steps{
-
-                            sh "echo Pushing"
-                            
-                        // }
-                    }
-                }
+                sh "docker run -d --name ${JOB_NAME} -p 7777:5555 ${img}"
+            }
+        }
+        stage('Uploadiong to DockerHub'){
+            when {
+                branch 'main'
+            }
+            steps{
+                sh "echo Pushing"
             }
         }
         stage('Deploy in server'){
+            when {
+                branch 'main'
+            }
             steps{
 
-                sh "echo Deploying"
+                sh "echo Deploying!"
                 
             }
         }
