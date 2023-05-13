@@ -1,0 +1,7 @@
+ec2_ami = "ami-007855ac798b5175e"
+ec2_public_ip = "3.237.51.33"
+ec2_subnet_az = "us-east-1a"
+ec2_subnet_id = "subnet-046127c5ecd4071e0"
+ec2_type = "t2.micro"
+public_vpc_id = "vpc-063616ba5fdde7db8"
+region = "us-east-1"
