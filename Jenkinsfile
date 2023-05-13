@@ -25,6 +25,16 @@ pipeline {
                 sh "./app"
             }
         } */
+        stage('Static analysis'){
+            steps{
+                script{
+                    withSonarQubeEnv(credentialsId: 'sonarqube') {
+                        sh "go build sonar:sonar"
+                    }
+                }
+            }
+        }
+
         stage('Build image'){
             when {
                 branch 'main'
@@ -40,6 +50,8 @@ pipeline {
                 
             }
         }
+
+
         stage('Running docker'){
             when{
                 branch 'main'
