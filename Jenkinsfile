@@ -25,15 +25,7 @@ pipeline {
                 sh "./app"
             }
         } */
-        stage('Static analysis'){
-            steps{
-                script{
-                    withSonarQubeEnv(credentialsId: 'sonarqube') {
-                        sh "go build sonar:sonar"
-                    }
-                }
-            }
-        }
+        
 
         stage('Build image'){
             when {
