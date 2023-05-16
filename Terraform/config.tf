@@ -59,48 +59,6 @@ resource "aws_route_table_association" "public_subnet_az1_rt_association" {
   depends_on = [ aws_subnet.public_subnet_az1, aws_route_table.public_route_table ]
 }
 
-resource "aws_instance" "ubuntu_tf" {
-    ami = var.instance_ami
-    instance_type = var.instace_type
-    subnet_id = aws_subnet.public_subnet_az1.id
-    vpc_security_group_ids = [ aws_security_group.tf_SG.id ]
-    user_data = <<-EOF
-    #!/bin/bash
-    apt apt update -y
-    apt apt install httpd -y
-    echo "<h2>WebServer</h2><br>Build by Terraform!"  >  /var/www/html/index.html
-    sudo service httpd start
-    chkconfig httpd on
-    EOF
-    tags = {
-        Name = var.instance_name
-        Owner = var.instance_owner
-    }
-}
-
-/* # create private app subnet az1
-resource "aws_subnet" "private_app_subnet_az1" {
-  vpc_id                  = 
-  cidr_block              = 
-  availability_zone       = 
-  map_public_ip_on_launch = 
-
-  tags = {
-    Name = "${}-${}-private-app-az1"
-  }
-}
-
-# create private data subnet az1
-resource "aws_subnet" "private_data_subnet_az1" {
-  vpc_id                  = 
-  cidr_block              = 
-  availability_zone       = 
-  map_public_ip_on_launch = 
-
-  tags = {
-    Name = "${}-${}-private-data-az1"
-  }
-} */
 
 # create security group
 resource "aws_security_group" "tf_SG" {
