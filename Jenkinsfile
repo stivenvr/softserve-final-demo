@@ -80,10 +80,10 @@ pipeline {
                     def drun = "docker run -d --name ${job} -p 7777:5555 ${img}"
                     sh "pwd"
                     sshagent(credentials:[EC2_SSH_KEY]){
-                    sh returnStatus: true, script: 'ssh -i ${EC2_SSH_KEY} -tt ubuntu@44.199.236.116 ${stopcontainer}'
-                    sh returnStatus: true, script: 'ssh -i ${EC2_SSH_KEY} -tt ubuntu@44.199.236.116 ${delcontainer}'
-                    sh returnStatus: true, script: 'ssh -i ${EC2_SSH_KEY} -tt ubuntu@44.199.236.116 ${delimages}'
-                    sh returnStatus: true, script: 'ssh -i ${EC2_SSH_KEY} -tt ubuntu@44.199.236.116 ${drun}'
+                    sh returnStatus: true, script: 'ssh -i ${EC2_SSH_KEY} -tt -o StrictHostKeyChecking=no ubuntu@44.199.236.116 ${stopcontainer}'
+                    sh returnStatus: true, script: 'ssh -i ${EC2_SSH_KEY} -tt -o StrictHostKeyChecking=no ubuntu@44.199.236.116 ${delcontainer}'
+                    sh returnStatus: true, script: 'ssh -i ${EC2_SSH_KEY} -tt -o StrictHostKeyChecking=no ubuntu@44.199.236.116 ${delimages}'
+                    sh returnStatus: true, script: 'ssh -i ${EC2_SSH_KEY} -tt -o StrictHostKeyChecking=no ubuntu@44.199.236.116 ${drun}'
                     }
                 }
             }
