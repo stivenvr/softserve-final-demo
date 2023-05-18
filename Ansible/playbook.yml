@@ -1,7 +1,0 @@
----
-
-- hosts: all
-  remote_user: sonar
-  tasks:
-  - name: "Lanza un ping"
-    ping:
