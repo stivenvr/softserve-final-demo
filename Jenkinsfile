@@ -80,10 +80,10 @@ pipeline {
                     def drun = "docker run -d --name ${job} -p 7777:5555 ${img}"
                     sh "pwd"
                     sshagent(credentials:[EC2_SSH_KEY]){
-                    sh returnStatus: true, script: "ssh ubuntu@100.26.248.24 /bin/bash <<'EOT' ${stopcontainer} EOT"
-                    sh returnStatus: true, script: "ssh ubuntu@100.26.248.24 /bin/bash <<'EOT' ${delcontainer} EOT"
-                    sh returnStatus: true, script: "ssh ubuntu@100.26.248.24 /bin/bash <<'EOT' ${delimages} EOT"
-                    sh returnStatus: true, script: "ssh ubuntu@100.26.248.24 /bin/bash <<'EOT' ${drun} EOT"
+                    sh returnStatus: true, script: 'ssh ubuntu@100.26.248.24 ${stopcontainer}'
+                    sh returnStatus: true, script: "ssh ubuntu@100.26.248.24"
+                    sh returnStatus: true, script: "ssh ubuntu@100.26.248.24"
+                    sh returnStatus: true, script: "ssh ubuntu@100.26.248.24"
                     }
                 }
             }
