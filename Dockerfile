@@ -1,4 +1,4 @@
-FROM golang:1.20.3-alpine3.17
+FROM golang:1.20.3-alpine3.17 AS builder
 
 WORKDIR /usr/src/app
 
@@ -7,6 +7,7 @@ COPY go.mod ./
 RUN go mod download && go mod verify
 
 COPY . .
-RUN go build -v -o /usr/local/bin/app ./main.go ./algorithm.go
 
-CMD ["app"]
+RUN go build -v -o app ./...
+
+CMD ["./app"]

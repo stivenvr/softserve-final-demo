@@ -7,7 +7,7 @@ pipeline {
         registry = "stivenvr/goapp"
         dockerImage = ""
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-        EC2_SSH_KEY = credentials('EC2_SSH_KEY')
+        // EC2_SSH_KEY = credentials('EC2_SSH_KEY')
     }
 
     stages {
@@ -79,12 +79,12 @@ pipeline {
                     def delimages = "docker image prune -a --force"
                     def drun = "docker run -d --name ${job} -p 7777:5555 ${img}"
                     sh "pwd"
-                    sshagent(credentials:[EC2_SSH_KEY]){
-                    sh returnStatus: true, script: "ssh ubuntu@ec2-54-227-214-0.compute-1.amazonaws.com ${stopcontainer}"
-                    sh returnStatus: true, script: "ssh ubuntu@ec2-54-227-214-0.compute-1.amazonaws.com ${delcontainer}"
-                    sh returnStatus: true, script: "ssh ubuntu@ec2-54-227-214-0.compute-1.amazonaws.com ${delimages}"
-                    sh returnStatus: true, script: "ssh ubuntu@ec2-54-227-214-0.compute-1.amazonaws.com ${drun}"
-                    }
+                    // sshagent(credentials:[EC2_SSH_KEY]){
+                    sh returnStatus: true, script: "ssh ubuntu@ec2-44-214-134-132.compute-1.amazonaws.com ${stopcontainer}"
+                    sh returnStatus: true, script: "ssh ubuntu@ec2-44-214-134-132.compute-1.amazonaws.com ${delcontainer}"
+                    sh returnStatus: true, script: "ssh ubuntu@ec2-44-214-134-132.compute-1.amazonaws.com ${delimages}"
+                    sh returnStatus: true, script: "ssh ubuntu@ec2-44-214-134-132.compute-1.amazonaws.com ${drun}"
+                    // }
                 }
             }
         }   
