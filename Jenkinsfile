@@ -84,7 +84,7 @@ pipeline {
                     // sh returnStatus: true, script: "ssh ubuntu@ec2-54-227-214-0.compute-1.amazonaws.com ${delcontainer}"
                     // sh returnStatus: true, script: "ssh ubuntu@ec2-54-227-214-0.compute-1.amazonaws.com ${delimages}"
                     // sh returnStatus: true, script: "ssh ubuntu@ec2-54-227-214-0.compute-1.amazonaws.com ${drun}"
-                    }
+                    // }
                 }
             }
         }   
