@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label 'ece2-slave'}
 
     environment{
         job = "finaldemo"
