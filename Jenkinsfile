@@ -32,7 +32,7 @@ pipeline {
                 branch 'main'
             }
             agent{
-                label = 'ec2-slave'
+                label 'ec2-slave'
             }
             steps{
                 script{
