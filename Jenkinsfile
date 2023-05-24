@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label 'ec2-slave'}
 
     environment{
         job = "finaldemo"
@@ -80,18 +80,18 @@ pipeline {
                     def drun = "docker run -d --name ${job} -p 7777:5555 ${img}"
                     sh "pwd"
                     // sshagent(credentials:[EC2_SSH_KEY]){
-                    sh returnStatus: true, script: "ssh ubuntu@ec2-44-214-134-132.compute-1.amazonaws.com ${stopcontainer}"
-                    sh returnStatus: true, script: "ssh ubuntu@ec2-44-214-134-132.compute-1.amazonaws.com ${delcontainer}"
-                    sh returnStatus: true, script: "ssh ubuntu@ec2-44-214-134-132.compute-1.amazonaws.com ${delimages}"
-                    sh returnStatus: true, script: "ssh ubuntu@ec2-44-214-134-132.compute-1.amazonaws.com ${drun}"
+                    // sh returnStatus: true, script: "ssh ubuntu@ec2-44-215-112-92.compute-1.amazonaws.com ${stopcontainer}"
+                    // sh returnStatus: true, script: "ssh ubuntu@ec2-44-215-112-92.compute-1.amazonaws.com ${delcontainer}"
+                    // sh returnStatus: true, script: "ssh ubuntu@ec2-44-215-112-92.compute-1.amazonaws.com ${delimages}"
+                    // sh returnStatus: true, script: "ssh ubuntu@ec2-44-215-112-92.compute-1.amazonaws.com ${drun}"
                     // }
                 }
             }
         }   
     }
-    post {
-        always {
-            sh "docker logout"
-        }
-    }
+    // post {
+    //     always {
+    //         sh "docker logout"
+    //     }
+    // }
 }
