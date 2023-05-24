@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'ec2-slave'}
+    agent any
 
     environment{
         job = "finaldemo"
