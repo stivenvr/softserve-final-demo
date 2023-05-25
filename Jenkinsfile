@@ -80,10 +80,10 @@ pipeline {
                     def drun = "docker run -d --name ${job} -p 7777:5555 ${img}"
                     sh "pwd"
                     // sshagent(credentials:[EC2_SSH_KEY]){
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-223-6-52.compute-1.amazonaws.com ${stopcontainer}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-223-6-52.compute-1.amazonaws.com ${delcontainer}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-223-6-52.compute-1.amazonaws.com ${delimages}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-223-6-52.compute-1.amazonaws.com ${drun}"
+                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${stopcontainer}"
+                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${delcontainer}"
+                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${delimages}"
+                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${drun}"
                     // }
                 }
             }
