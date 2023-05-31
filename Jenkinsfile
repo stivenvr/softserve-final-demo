@@ -16,17 +16,29 @@ pipeline {
                 sh "go test"
             }
         }
-        /* stage('Go run test'){
-            when {
-                branch 'develop'
-            }
+        stage('SonarQube analysis') {
             steps{
-                sh "go build -v -o ./app ./main.go ./algorithm.go"
-                sh "./app"
+                script{
+                    def scannerHome = tool 'sonarscanner';
+                    withSonarQubeEnv('sonarcloud') { // If you have configured more than one global server connection, you can specify its name
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
             }
-        } */
+        }
+        stage("Quality Gate"){
+            steps{
+                script{
+                    timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+                        def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        }
+                    }
+                }
+            }
+        }
         
-
         stage('Build image'){
             when {
                 branch 'main'
@@ -52,20 +64,24 @@ pipeline {
                 sh "docker run -d --name ${job} -p 7777:5555 ${img}"
             }
         }
-        stage('Docker login'){
+
+        stage('ECR login'){
             when {
                 branch 'main'
             }
             steps{
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/t5u9r2n7'
             }
         }
-        stage('Push to dockerhub'){
+        stage('Push to ECR'){
             when {
                 branch 'main'
             }
             steps{
-                sh "docker push ${registry}"
+                script{
+                    sh "docker tag ${registry}:latest public.ecr.aws/t5u9r2n7/${registry}:latest"
+                    sh "docker push public.ecr.aws/t5u9r2n7/${registry}:latest"
+                }
             }
         }
         stage('Deploy in server'){
@@ -80,18 +96,13 @@ pipeline {
                     def drun = "docker run -d --name ${job} -p 7777:5555 ${img}"
                     sh "pwd"
                     // sshagent(credentials:[EC2_SSH_KEY]){
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${stopcontainer}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${delcontainer}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${delimages}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${drun}"
+                    // sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${stopcontainer}"
+                    // sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${delcontainer}"
+                    // sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${delimages}"
+                    // sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${drun}"
                     // }
                 }
             }
         }   
     }
-    // post {
-    //     always {
-    //         sh "docker logout"
-    //     }
-    // }
 }
