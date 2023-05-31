@@ -4,7 +4,7 @@ pipeline {
     environment{
         job = "finaldemo"
         img = ""
-        registry = "stivenvr/goapp"
+        registry = "public.ecr.aws/t5u9r2n7/mydemoimages"
         dockerImage = ""
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         // EC2_SSH_KEY = credentials('EC2_SSH_KEY')
@@ -70,7 +70,9 @@ pipeline {
                 branch 'main'
             }
             steps{
-                sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/t5u9r2n7'
+                script{
+                    sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/t5u9r2n7'
+                }
             }
         }
         stage('Push to ECR'){
