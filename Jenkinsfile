@@ -81,7 +81,7 @@ pipeline {
             }
             steps{
                 script{
-                    //-- sh "docker tag ${registry}:latest public.ecr.aws/t5u9r2n7/${registry}:latest"
+                    //sh "docker tag ${registry}:latest public.ecr.aws/t5u9r2n7/${registry}:latest"
                     sh "docker push public.ecr.aws/t5u9r2n7/${registry}:latest"
                 }
             }
