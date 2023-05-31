@@ -39,7 +39,6 @@ pipeline {
             }
         }
         
-
         stage('Build image'){
             when {
                 branch 'main'
@@ -65,20 +64,24 @@ pipeline {
                 sh "docker run -d --name ${job} -p 7777:5555 ${img}"
             }
         }
-        stage('Docker login'){
+
+        stage('ECR login'){
             when {
                 branch 'main'
             }
             steps{
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/t5u9r2n7'
             }
         }
-        stage('Push to dockerhub'){
+        stage('Push to ECR'){
             when {
                 branch 'main'
             }
             steps{
-                sh "docker push ${registry}"
+                script{
+                    sh "docker tag ${registry}:latest public.ecr.aws/t5u9r2n7/${registry}:latest"
+                    sh "docker push public.ecr.aws/t5u9r2n7/${registry}:latest"
+                }
             }
         }
         stage('Deploy in server'){
