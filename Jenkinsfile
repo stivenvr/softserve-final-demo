@@ -80,7 +80,7 @@ pipeline {
             }
             steps{
                 script{
-                    sh "docker push public.ecr.aws/t5u9r2n7/${registry}:latest"
+                    sh "${registry}:latest"
                 }
             }
         }
