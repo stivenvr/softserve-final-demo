@@ -93,13 +93,15 @@ pipeline {
                     def stopcontainer = "docker stop ${job}"
                     def delcontainer = "docker rm ${job}"
                     def delimages = "docker image prune -a --force"
-                    def drun = "docker run -d --name ${job} -p 7777:5555 ${img}"
+                    def downimg = "docker pull ${registry}"
+                    def drun = "docker run -d --name ${job} -p 7777:5555 ${registry}"
                     sh "pwd"
                     // sshagent(credentials:[EC2_SSH_KEY]){
-                    // sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${stopcontainer}"
-                    // sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${delcontainer}"
-                    // sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${delimages}"
-                    // sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-192-105-203.compute-1.amazonaws.com ${drun}"
+                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-236-42-153.compute-1.amazonaws.com ${stopcontainer}"
+                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-236-42-153.compute-1.amazonaws.com ${delcontainer}"
+                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-236-42-153.compute-1.amazonaws.com ${delimages}"
+                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-236-42-153.compute-1.amazonaws.com ${downimg}"
+                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-236-42-153.compute-1.amazonaws.com ${drun}"
                     // }
                 }
             }
