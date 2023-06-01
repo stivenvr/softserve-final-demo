@@ -80,7 +80,7 @@ pipeline {
             }
             steps{
                 script{
-                    sh "${registry}:latest"
+                    sh "docker push ${registry}"
                 }
             }
         }
