@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -26,7 +27,35 @@ func (m Message) Encrypt() string {
 	result = strings.Replace(result, "i", "imes", -1)
 	result = strings.Replace(result, "o", "ober", -1)
 	result = strings.Replace(result, "u", "ufat", -1)
-
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
+	fmt.Println("HOLA")
 	return result
 
 }
