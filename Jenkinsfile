@@ -90,19 +90,9 @@ pipeline {
             }
             steps{
                 script{
-                    def stopcontainer = "docker stop ${job}"
-                    def delcontainer = "docker rm ${job}"
-                    def delimages = "docker image prune -a --force"
-                    def downimg = "docker pull ${registry}"
-                    def drun = "docker run -d --name ${job} -p 7777:5555 ${registry}"
-                    sh "pwd"
-                    // sshagent(credentials:[EC2_SSH_KEY]){
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-219-233-19.compute-1.amazonaws.com ${stopcontainer}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-219-233-19.compute-1.amazonaws.com ${delcontainer}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-219-233-19.compute-1.amazonaws.com ${delimages}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-219-233-19.compute-1.amazonaws.com ${downimg}"
-                    sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-219-233-19.compute-1.amazonaws.com ${drun}"
-                    // }
+                    sh 'terraform init'
+                    sh 'terraform validate'
+                    sh 'terraform apply --auto-approve'
                 }
             }
         }   
