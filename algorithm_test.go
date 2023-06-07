@@ -10,7 +10,7 @@ func TestEncrypt(t *testing.T) {
 		EncryptOrDecryptMsg: "encrypt",
 		FinalMesg:           "",
 	}
-	expectedString := "hoberlaimes"
+	expectedString := "hoberlaimesa"
 	m.FinalMesg = m.Encrypt()
 	if m.FinalMesg != expectedString {
 		t.Errorf("The expected string is: %v, but got %v", expectedString, m.FinalMesg)
